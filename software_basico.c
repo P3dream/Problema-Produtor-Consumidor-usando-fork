@@ -1,99 +1,88 @@
     #include <stdio.h>
     #include <unistd.h>
     #include <stdlib.h>
+	#include <time.h>
 
     int main()
     {
         FILE * File;
         FILE * FBlock;
         int s1,s2;
-        int num;
-        int vetor[101];
+        int vetor[1000];
         char filename[] = "buffer.txt";
         char filename2[] = "buffer.txt.lock";
         int i = 0;
         int valor;
-        int retorno;
-        int retorno2;
+        int var;
         int pid = fork();
+
+        srand(time(NULL));
 
         if(pid==0){
             //produtor (filho, pid 0)
             while(1){
-                while(FBlock){
-
-                    s1 = 1 + rand() % 2;
-                    sleep(s1);
-
+                while(FBlock = fopen("buffer.txt.lock","r")){ // verificamos se o arquivo do txt.lock existe, se existir significa que o consumidor esta funcionando no momento.
+                	usleep(1000); // e entao esperamos.
                 }
+                FBlock = fopen ("buffer.txt.lock","w"); // abrimos o arquivo do lock no modo write so para ele existir
+                fclose(FBlock); // e ja fechamos, pq nao vamos usa-lo agora.
 
-                FBlock = fopen ("buffer.txt.lock","w");
-                fclose(FBlock);
+                File = fopen ("buffer.txt","a"); // abrimos o buffer txt no modo apend para adicionar o valor gerado no final
 
-                File = fopen ("buffer.txt","a");
+                var = rand()%99; // geramos um numero aleatorio
+                fprintf(File,"%d\n",var); // printamos o numero aleatorio no arquivo ( produzido )
+                printf("[Produtor]:%d\n",var);// mostramos o numero produzido
 
-                fprintf(File,"%d\n",rand()%99);
-                fprintf(File,"%d\n",rand()%99);
-                fprintf(File,"%d\n",rand()%99);
+                fclose(File); // fechamos o arquivo
+                remove("buffer.txt.lock"); // removemos o lock
 
-                fclose(File);
-
-                int retorno = remove(filename2);
-
-                if(retorno==-1){
-                    printf("Problema de permissao");
-                }// se for 0 o retorno, conseguiu deletar o arquivo Fblock.
+                s1 = 1 + rand() % 2; //  geramos um numero aleatorio entre 1 e 3
+                sleep(s1);// system dorme esse tempo
             }
 
         }
         else{
             //consumidor (pai, pid do filho)
             while(1){
-                while(FBlock){
-
-                    s2 = 1 + rand() % 2;
-                    sleep(s2);
-
+                while(FBlock = fopen("buffer.txt.lock","r")){ // verificamos se o lock existe, se existir esperamos.
+                	usleep(1000);
                 }
-                FBlock = fopen ("buffer.txt.lock","w");
+
+                FBlock = fopen ("buffer.txt.lock","w");// geramos o lock, e o fechamos em seguida.
                 fclose(FBlock);
 
-                File = fopen ("buffer.txt","r");
-                if(!File){
+                File = fopen ("buffer.txt","r");//abrimos o buffer no modo de leitura
+                if(!File){ // se nao conseguir abrir o arquivo e indicado um erro
                     printf("Nao foi possivel abrir o arquivo buffer.txt\n");
                 }
-                if(fscanf(File, "%d", &valor) == 0){
 
-                    retorno2 = remove(filename2);
-                    s2 = 1 + rand() % 2;
-                    sleep(s2);
-                    while(FBlock){
-                        s2 = 1 + rand() % 2;
-                        sleep(s2);
-                    }
-                }
-                while(fscanf(File, "%d", &valor) == 1){
-                    vetor[i]=valor;
-                    i=(i%99)+1;
-                }
-                fclose(File);
+               	i=0; // zera o contador para o vetor sempre comecar na posicao 0
 
-                File = fopen ("buffer.txt","w");
-                printf("%d",vetor[i-1]);
-                printf("\n");
-
-                for(int j = 0; j < i-1; j++){
-                    fprintf(File,"%d\n",vetor[j]);
-                    printf("vetor na posicao j:%d  = %d valor de i %d\n",j,vetor[j],i);
+                while(fscanf(File, "%d", &valor) != EOF){ // enquanto ele conseguir ler valores
+                    vetor[i]=valor; // passa eles para o vetor
+                    //printf("vetor[%d]= %d\n",i,vetor[i]);
+                    i = i + 1; // incrementa o i
                 }
 
-                fclose(File);
+                fclose(File); // fechamos o arquivo
 
-                retorno2 = remove(filename2);
+                File = fopen ("buffer.txt","w"); // abrimos ele em modo de escrita
 
-                if(retorno==-1){
-                    printf("Problema de permissao");
-                }// se for 0 o retorno, conseguiu deletar o arquivo Fblock.
+                printf("[Consumidor]:%d\n",vetor[0]); // printamos o primeiro valor do vetor pq ele sera consumido.
+
+
+                for(int j = 1; j < i; j++){
+                    fprintf(File,"%d\n",vetor[j]); // printamos no arquivo os outros valores que nao foram consumidos.
+                }
+
+                fclose(File); // fechamos o arquivo
+
+                remove(filename2); // excluimos o lock
+
+
+                s2 = 1 + rand() % 2; // geramos um numero aleatorio entre 1 e 3
+                sleep(s2); // system dorme esse tempo aleatorio gerado.
+
             }
         }
         return 0;
