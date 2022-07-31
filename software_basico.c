@@ -66,8 +66,9 @@ int main(){
 
             File = fopen ("buffer.txt","w"); // abrimos ele em modo de escrita
 
-            printf("[Consumidor]:%d\n",vetor[0]); // printamos o primeiro valor do vetor pq ele sera consumido.
-
+            if(i!=0){
+                printf("[Consumidor]:%d\n",vetor[0]); // printamos o primeiro valor do vetor pq ele sera consumido.
+            }
 
             for(int j = 1; j < i; j++){
                 fprintf(File,"%d\n",vetor[j]); // printamos no arquivo os outros valores que nao foram consumidos.
