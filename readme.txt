@@ -1,16 +1,86 @@
-No trabalho a seguir, é utilizada a função fork, uma das pioneiras, se não a pioneira no processo de paralelização.
+# Parallel Producer-Consumer with Fork
 
-Nesse código, utilizamos a duplicação de processos com o fork, sendo um processo responsável pela produção de numeros (dados),
-e o outro pelo consumo desses numeros (dados). 
+<div align="center">
+  :brazil: <a href="#português">Português</a> | 
+  :us: <a href="#english">English</a>
+</div>
 
-Esse código é voltado para o LINUX, pois o windows não possui a função fork.
+---
 
-É possivel testar o código, sem a necessidade do donwload do projeto, através do OnlineGDB: https://onlinegdb.com/xDj4OUdog
+## Português
 
-Esse trabalho foi desenvolvido por mim, na disciplina de Software Basico, no curso de Engenharia de Computação no CEFET/RJ.
-Sua realização foi interessante para explorar a parelelização, mesmo que de uma forma simplificada, para fins academicos.
+### 🖥️ Sistema de Produção/Consumo Paralelo
+Implementação acadêmica utilizando `fork()` para paralelização entre processos, desenvolvida para a disciplina de Software Básico no CEFET/RJ.
 
-Sinta-se a vontade para fazer pull requests, em caso de apontamento de melhorias ou correções de bugs.
+### ⚙️ Funcionalidades
+- Processo **produtor** gera números sequenciais
+- Processo **consumidor** processa os dados gerados
+- Comunicação via memória compartilhada
+- Demonstração fundamental de paralelismo em sistemas operacionais
 
-Assinado: Pedro Pizzi(P3dream).
+### 🐧 Compatibilidade
+- Exclusivo para **Linux** (não suporta Windows)
+- Desenvolvido para sistemas POSIX
 
+### 🚀 Execução
+Teste online sem instalação:  
+[![Open in OnlineGDB](https://img.shields.io/badge/OnlineGDB-Executar%20Agora-blue?logo=c&logoColor=white)](https://onlinegdb.com/xDj4OUdog)
+
+### 🧠 Contexto Acadêmico
+- Disciplina: Software Básico
+- Instituição: CEFET/RJ - Engenharia de Computação
+- Conceitos abordados:
+  - Chamadas de sistema
+  - Gerenciamento de processos
+  - Paralelismo básico
+  - Memória compartilhada
+
+### 📌 Considerações
+Projeto desenvolvido como exercício acadêmico para demonstrar:
+- O funcionamento primitivo de paralelização
+- A duplicação de processos com `fork()`
+- Padrões produtor-consumidor
+
+Contribuições são bem-vindas via **Pull Requests**
+
+Desenvolvido por **Pedro Pizzi (P3dream)**
+
+---
+
+## English
+
+### 🖥️ Parallel Producer-Consumer System
+Academic implementation using `fork()` for process-level parallelism, developed for Basic Software course at CEFET/RJ.
+
+### ⚙️ Features
+- **Producer** process generates sequential numbers
+- **Consumer** process handles the data
+- Shared memory communication
+- Fundamental OS parallelism demonstration
+
+### 🐧 Compatibility
+- **Linux-exclusive** (Windows unsupported)
+- Designed for POSIX systems
+
+### 🚀 Execution
+Run online without installation:  
+[![Open in OnlineGDB](https://img.shields.io/badge/OnlineGDB-Run%20Now-blue?logo=c&logoColor=white)](https://onlinegdb.com/xDj4OUdog)
+
+### � Academic Context
+- Course: Basic Software
+- Institution: CEFET/RJ - Computer Engineering
+- Covered concepts:
+  - System calls
+  - Process management
+  - Basic parallelism
+  - Shared memory
+
+### 📌 Notes
+Project developed as academic exercise to demonstrate:
+- Primitive parallelization
+- Process duplication with `fork()`
+- Producer-consumer patterns
+
+Contributions welcome via **Pull Requests**
+
+Developed by **Pedro Pizzi (P3dream)**
